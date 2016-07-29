@@ -1,15 +1,15 @@
-package com.github.fakegps;
+package com.github.fakegps.pokemon;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.github.fakegps.model.LocPoint;
-import com.github.fakegps.ui.BookmarkActivity;
-import com.github.fakegps.ui.FlyToActivity;
-import com.github.fakegps.ui.JoyStickView;
-import com.github.fakegps.ui.MainActivity;
+import com.github.fakegps.pokemon.model.LocPoint;
+import com.github.fakegps.pokemon.ui.BookmarkActivity;
+import com.github.fakegps.pokemon.ui.FlyToActivity;
+import com.github.fakegps.pokemon.ui.JoyStickView;
+import com.github.fakegps.pokemon.ui.MainActivity;
 
 /**
  * Created by tiger on 7/22/16.
@@ -18,7 +18,11 @@ public class JoyStickManager implements IJoyStickPresenter {
 
     private static final String TAG = "JoyStickManager";
 
-    public static double STEP_DEFAULT = 0.00002;
+    public static double STEP_WALK = 0.00002; // 2m/s
+    public static double STEP_BIKE = 0.00005; // 5m/s
+    public static double STEP_CAR = 0.00010;  // 10m/s
+
+    public static double STEP_DEFAULT = STEP_WALK;
 
     private static JoyStickManager INSTANCE = new JoyStickManager();
 

@@ -1,4 +1,4 @@
-package com.github.fakegps;
+package com.github.fakegps.pokemon;
 
 /**
  * Created by tiger on 7/28/16.

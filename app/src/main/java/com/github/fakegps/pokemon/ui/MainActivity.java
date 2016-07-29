@@ -1,4 +1,4 @@
-package com.github.fakegps.ui;
+package com.github.fakegps.pokemon.ui;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -20,14 +20,14 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.github.fakegps.BroadcastEvent;
-import com.github.fakegps.DbUtils;
-import com.github.fakegps.FakeGpsApp;
-import com.github.fakegps.FakeGpsUtils;
-import com.github.fakegps.JoyStickManager;
-import com.tencent.fakegps.R;
-import com.github.fakegps.model.LocBookmark;
-import com.github.fakegps.model.LocPoint;
+import com.github.fakegps.pokemon.BroadcastEvent;
+import com.github.fakegps.pokemon.DbUtils;
+import com.github.fakegps.pokemon.FakeGpsApp;
+import com.github.fakegps.pokemon.FakeGpsUtils;
+import com.github.fakegps.pokemon.JoyStickManager;
+import com.github.fakegps.pokemon.R;
+import com.github.fakegps.pokemon.model.LocBookmark;
+import com.github.fakegps.pokemon.model.LocPoint;
 
 import java.util.ArrayList;
 

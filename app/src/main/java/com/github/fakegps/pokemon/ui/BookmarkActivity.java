@@ -1,4 +1,4 @@
-package com.github.fakegps.ui;
+package com.github.fakegps.pokemon.ui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,11 +9,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.github.fakegps.DbUtils;
-import com.github.fakegps.FakeGpsUtils;
-import com.tencent.fakegps.R;
-import com.github.fakegps.model.LocBookmark;
-import com.github.fakegps.model.LocPoint;
+import com.github.fakegps.pokemon.DbUtils;
+import com.github.fakegps.pokemon.FakeGpsUtils;
+import com.github.fakegps.pokemon.R;
+import com.github.fakegps.pokemon.model.LocBookmark;
+import com.github.fakegps.pokemon.model.LocPoint;
 
 /**
  * BookmarkActivity

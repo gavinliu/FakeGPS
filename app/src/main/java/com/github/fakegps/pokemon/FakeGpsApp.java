@@ -1,4 +1,4 @@
-package com.github.fakegps;
+package com.github.fakegps.pokemon;
 
 import android.app.Application;
 import android.content.Context;

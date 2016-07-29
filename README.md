@@ -1,3 +1,7 @@
+#FakeGPS-PokemonGo
+
+> 基于 FakeGPS ，对 PokemonGo 优化。
+
 #FakeGPS
 
 [中文Readme](https://github.com/xiangtailiang/FakeGPS/blob/master/README_CN.md)

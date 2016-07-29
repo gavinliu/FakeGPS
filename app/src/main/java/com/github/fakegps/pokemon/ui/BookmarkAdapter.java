@@ -1,4 +1,4 @@
-package com.github.fakegps.ui;
+package com.github.fakegps.pokemon.ui;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.tencent.fakegps.R;
-import com.github.fakegps.model.LocBookmark;
+import com.github.fakegps.pokemon.model.LocBookmark;
+import com.github.fakegps.pokemon.R;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.github.fakegps.model;
+package com.github.fakegps.pokemon.model;
 
 import java.io.Serializable;
 

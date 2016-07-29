@@ -1,4 +1,4 @@
-package com.github.fakegps.model;
+package com.github.fakegps.pokemon.model;
 
 import com.litesuits.orm.db.annotation.Column;
 import com.litesuits.orm.db.annotation.NotNull;
