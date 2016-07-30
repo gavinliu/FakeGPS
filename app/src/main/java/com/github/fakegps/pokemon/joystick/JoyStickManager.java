@@ -1,14 +1,15 @@
-package com.github.fakegps.pokemon;
+package com.github.fakegps.pokemon.joystick;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.github.fakegps.pokemon.util.FakeGpsUtils;
+import com.github.fakegps.pokemon.service.LocationThread;
 import com.github.fakegps.pokemon.model.LocPoint;
 import com.github.fakegps.pokemon.ui.BookmarkActivity;
 import com.github.fakegps.pokemon.ui.FlyToActivity;
-import com.github.fakegps.pokemon.ui.JoyStickView;
 import com.github.fakegps.pokemon.ui.MainActivity;
 
 /**
@@ -21,24 +22,26 @@ public class JoyStickManager implements IJoyStickPresenter {
     public static double STEP_WALK = 0.00002; // 2m/s
     public static double STEP_BIKE = 0.00005; // 5m/s
     public static double STEP_CAR = 0.00010;  // 10m/s
+    public static double STEP_DEFAULT = STEP_CAR;
 
-    public static double STEP_DEFAULT = STEP_WALK;
+    private double mMoveStep = STEP_DEFAULT;
 
     private static JoyStickManager INSTANCE = new JoyStickManager();
 
     private Context mContext;
     private LocationThread mLocationThread;
     private boolean mIsStarted = false;
-    private double mMoveStep = STEP_DEFAULT;
 
     private LocPoint mCurrentLocPoint;
-
     private LocPoint mTargetLocPoint;
+
     private int mFlyTime;
     private int mFlyTimeIndex;
     private boolean mIsFlyMode = false;
 
-    private JoyStickView mJoyStickView;
+    private IJoyStickView mView;
+
+    private PokemonGoJoyStick mJoyStickView;
 
     private JoyStickManager() {
     }
@@ -78,7 +81,7 @@ public class JoyStickManager implements IJoyStickPresenter {
 
     public void showJoyStick() {
         if (mJoyStickView == null) {
-            mJoyStickView = new JoyStickView(mContext);
+            mJoyStickView = new PokemonGoJoyStick(mContext);
             mJoyStickView.setJoyStickPresenter(this);
         }
 

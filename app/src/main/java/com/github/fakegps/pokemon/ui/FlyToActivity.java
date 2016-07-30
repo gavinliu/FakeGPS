@@ -20,11 +20,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.github.fakegps.pokemon.BroadcastEvent;
-import com.github.fakegps.pokemon.DbUtils;
+import com.github.fakegps.pokemon.event.BroadcastEvent;
+import com.github.fakegps.pokemon.util.DbUtils;
 import com.github.fakegps.pokemon.FakeGpsApp;
-import com.github.fakegps.pokemon.FakeGpsUtils;
-import com.github.fakegps.pokemon.JoyStickManager;
+import com.github.fakegps.pokemon.util.FakeGpsUtils;
+import com.github.fakegps.pokemon.joystick.JoyStickManager;
 import com.github.fakegps.pokemon.R;
 import com.github.fakegps.pokemon.model.LocBookmark;
 import com.github.fakegps.pokemon.model.LocPoint;

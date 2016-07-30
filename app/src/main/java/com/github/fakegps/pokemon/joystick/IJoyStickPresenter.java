@@ -1,4 +1,4 @@
-package com.github.fakegps.pokemon;
+package com.github.fakegps.pokemon.joystick;
 
 /**
  * Created by tiger on 7/23/16.

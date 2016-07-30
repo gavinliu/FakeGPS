@@ -1,4 +1,4 @@
-package com.github.fakegps.pokemon.ui;
+package com.github.fakegps.pokemon.joystick;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
@@ -9,14 +9,13 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
-import com.github.fakegps.pokemon.IJoyStickPresenter;
 import com.github.fakegps.pokemon.R;
-import com.github.fakegps.pokemon.ScreenUtils;
+import com.github.fakegps.pokemon.util.ScreenUtils;
 
 /**
  * Created by tiger on 7/22/16.
  */
-public class JoyStickView extends FrameLayout {
+public class PokemonGoJoyStick extends FrameLayout implements IJoyStickView {
 
     private static int sStatusBarHeight;
 
@@ -37,7 +36,7 @@ public class JoyStickView extends FrameLayout {
 
     private IJoyStickPresenter mJoyStickPresenter;
 
-    public JoyStickView(Context context) {
+    public PokemonGoJoyStick(Context context) {
         super(context);
         mWindowManager = (WindowManager) context
                 .getSystemService(Context.WINDOW_SERVICE);

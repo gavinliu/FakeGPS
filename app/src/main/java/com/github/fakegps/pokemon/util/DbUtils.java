@@ -1,10 +1,12 @@
-package com.github.fakegps.pokemon;
+package com.github.fakegps.pokemon.util;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 
+import com.github.fakegps.pokemon.FakeGpsApp;
+import com.github.fakegps.pokemon.event.BroadcastEvent;
 import com.litesuits.orm.db.model.ConflictAlgorithm;
 import com.github.fakegps.pokemon.model.LocBookmark;
 import com.github.fakegps.pokemon.model.LocPoint;

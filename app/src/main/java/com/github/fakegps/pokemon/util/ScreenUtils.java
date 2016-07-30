@@ -1,4 +1,4 @@
-package com.github.fakegps.pokemon;
+package com.github.fakegps.pokemon.util;
 
 import android.content.Context;
 import android.view.WindowManager;

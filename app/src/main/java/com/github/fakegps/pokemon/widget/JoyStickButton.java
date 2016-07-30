@@ -1,4 +1,4 @@
-package com.github.fakegps.pokemon.ui;
+package com.github.fakegps.pokemon.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;

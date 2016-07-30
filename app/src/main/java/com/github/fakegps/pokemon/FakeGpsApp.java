@@ -3,6 +3,7 @@ package com.github.fakegps.pokemon;
 import android.app.Application;
 import android.content.Context;
 
+import com.github.fakegps.pokemon.joystick.JoyStickManager;
 import com.litesuits.orm.LiteOrm;
 
 /**

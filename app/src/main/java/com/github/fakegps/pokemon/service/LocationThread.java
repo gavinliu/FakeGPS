@@ -1,4 +1,4 @@
-package com.github.fakegps.pokemon;
+package com.github.fakegps.pokemon.service;
 
 import android.content.Context;
 import android.location.ILocationManager;
@@ -11,6 +11,7 @@ import android.os.SystemClock;
 import android.provider.Settings;
 import android.util.Log;
 
+import com.github.fakegps.pokemon.joystick.JoyStickManager;
 import com.github.fakegps.pokemon.model.LocPoint;
 
 import java.lang.reflect.Field;
