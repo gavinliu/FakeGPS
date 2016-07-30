@@ -12,7 +12,7 @@ import android.provider.Settings;
 import android.util.Log;
 
 import com.github.fakegps.pokemon.joystick.JoyStickManager;
-import com.github.fakegps.pokemon.model.LocPoint;
+import com.github.fakegps.pokemon.model.LocationPoint;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -25,14 +25,13 @@ import java.lang.reflect.Method;
 public class LocationThread extends HandlerThread {
 
     private static final String TAG = "LocationThread";
-
-
+    
     private Context mContext;
     private JoyStickManager mJoyStickManager;
     private LocationManager mLocationManager;
 
     private Handler mHandler;
-    private LocPoint mLastLocPoint = new LocPoint(0, 0);
+    private LocationPoint mLastLocPoint = new LocationPoint(0, 0);
 
     private static Method mMethodMakeComplete;
     private static ILocationManager mILocationManager;
@@ -61,8 +60,6 @@ public class LocationThread extends HandlerThread {
                 Log.e(TAG, "get LocationManager mService fail!", e);
             }
         }
-
-
     }
 
     @Override
@@ -103,7 +100,7 @@ public class LocationThread extends HandlerThread {
         @Override
         public void run() {
 
-            LocPoint locPoint = mJoyStickManager.getUpdateLocPoint();
+            LocationPoint locPoint = mJoyStickManager.getUpdateLocPoint();
             Log.d(TAG, "UpdateLocation, " + locPoint);
             Location location = new Location("gps");
             try {

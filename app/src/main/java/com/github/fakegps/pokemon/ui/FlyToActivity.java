@@ -18,57 +18,83 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.github.fakegps.pokemon.event.BroadcastEvent;
+import com.github.fakegps.pokemon.model.LocationPoint;
 import com.github.fakegps.pokemon.util.DbUtils;
 import com.github.fakegps.pokemon.FakeGpsApp;
 import com.github.fakegps.pokemon.util.FakeGpsUtils;
 import com.github.fakegps.pokemon.joystick.JoyStickManager;
 import com.github.fakegps.pokemon.R;
-import com.github.fakegps.pokemon.model.LocBookmark;
-import com.github.fakegps.pokemon.model.LocPoint;
+import com.github.fakegps.pokemon.model.LocationMark;
 
 import java.util.ArrayList;
 
 public class FlyToActivity extends AppCompatActivity implements View.OnClickListener {
-    //    private final double LAT_DEFAULT = 37.802406;
-//    private final double LON_DEFAULT = -122.401779;
     private final double LAT_DEFAULT = 23.151637;
     private final double LON_DEFAULT = 113.344721;
 
-    private final int FLY_TIME_DEFAULT = 60;
-
     public static final int DELETE_ID = 1001;
 
-    private EditText mLocEditText;
-    private EditText mFlyTimeEditText;
-    private ListView mListView;
-    private Button mBtnStart;
-    private BookmarkAdapter mAdapter;
+    private EditText mLocationLatEditText;
+    private EditText mLocationLonEditText;
 
+    private RadioGroup mMoveStepGroup;
+
+    private ListView mListView;
+    private MarkAdapter mAdapter;
+
+    private Button mBtnStart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fly);
 
-        //location input
-        mLocEditText = (EditText) findViewById(R.id.inputLoc);
-        LocPoint currentLocPoint = JoyStickManager.get().getCurrentLocPoint();
-        if (currentLocPoint != null) {
-            mLocEditText.setText(currentLocPoint.toString());
-        } else {
+        mLocationLatEditText = (EditText) findViewById(R.id.inputLat);
+        mLocationLonEditText = (EditText) findViewById(R.id.inputLon);
+
+        LocationPoint currentLocPoint = JoyStickManager.get().getCurrentLocPoint();
+        if (currentLocPoint == null) {
             String lastLocPoint = DbUtils.getLastLocPoint(this);
             if (!TextUtils.isEmpty(lastLocPoint)) {
-                mLocEditText.setText(lastLocPoint);
+                currentLocPoint = FakeGpsUtils.getLocPointFromString(lastLocPoint);
             } else {
-                mLocEditText.setText(new LocPoint(LAT_DEFAULT, LON_DEFAULT).toString());
+                currentLocPoint = new LocationPoint(LAT_DEFAULT, LON_DEFAULT);
             }
         }
-        //each move step delta
-        mFlyTimeEditText = (EditText) findViewById(R.id.inputFlyTime);
-        mFlyTimeEditText.setText(String.valueOf(FLY_TIME_DEFAULT));
+
+        mLocationLatEditText.setText(String.valueOf(currentLocPoint.getLatitude()));
+        mLocationLonEditText.setText(String.valueOf(currentLocPoint.getLongitude()));
+
+        mLocationLatEditText.setSelection(mLocationLatEditText.getText().length());
+        mLocationLonEditText.setSelection(mLocationLonEditText.getText().length());
+
+        mMoveStepGroup = (RadioGroup) findViewById(R.id.inputStep);
+        mMoveStepGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                double step = JoyStickManager.STEP_WALK;
+
+                switch (checkedId) {
+                    case R.id.inputStepBike:
+                        step = JoyStickManager.STEP_BIKE;
+                        break;
+
+                    case R.id.inputStepCar:
+                        step = JoyStickManager.STEP_CAR;
+                }
+
+                JoyStickManager.get().setMoveStep(step);
+            }
+        });
+
+        double step = JoyStickManager.get().getMoveStep();
+        if (step == JoyStickManager.STEP_CAR) mMoveStepGroup.check(R.id.inputStepCar);
+        else if (step == JoyStickManager.STEP_WALK) mMoveStepGroup.check(R.id.inputStepWalk);
+        else if (step == JoyStickManager.STEP_BIKE) mMoveStepGroup.check(R.id.inputStepBike);
 
         mListView = (ListView) findViewById(R.id.list_bookmark);
 
@@ -83,8 +109,7 @@ public class FlyToActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        int flyTime = FakeGpsUtils.getIntValueFromInput(this, mFlyTimeEditText);
-        LocPoint point = FakeGpsUtils.getLocPointFromInput(this, mLocEditText);
+        LocationPoint point = FakeGpsUtils.getLocPointFromInput(mLocationLatEditText, mLocationLonEditText);
 
         switch (view.getId()) {
 
@@ -93,8 +118,8 @@ public class FlyToActivity extends AppCompatActivity implements View.OnClickList
                     if (JoyStickManager.get().isFlyMode()) {
                         JoyStickManager.get().stopFlyMode();
                     } else {
-                        if (point != null && flyTime > 0) {
-                            JoyStickManager.get().flyToLocation(point, flyTime);
+                        if (point != null) {
+                            JoyStickManager.get().flyToLocation(point);
                         } else {
                             Toast.makeText(this, "Input is not valid!", Toast.LENGTH_SHORT).show();
                         }
@@ -114,8 +139,8 @@ public class FlyToActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void initListView() {
-        mAdapter = new BookmarkAdapter(this);
-        ArrayList<LocBookmark> allBookmark = DbUtils.getAllBookmark();
+        mAdapter = new MarkAdapter(this);
+        ArrayList<LocationMark> allBookmark = DbUtils.getAllBookmark();
         mAdapter.setLocBookmarkList(allBookmark);
         mListView.setAdapter(mAdapter);
 
@@ -125,8 +150,10 @@ public class FlyToActivity extends AppCompatActivity implements View.OnClickList
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                LocPoint locPoint = mAdapter.getItem(position).getLocPoint();
-                mLocEditText.setText(locPoint != null ? locPoint.toString() : "");
+                LocationPoint locPoint = mAdapter.getItem(position).getLocPoint();
+
+                mLocationLatEditText.setText(String.valueOf(locPoint.getLatitude()));
+                mLocationLonEditText.setText(String.valueOf(locPoint.getLongitude()));
             }
         });
 
@@ -154,13 +181,13 @@ public class FlyToActivity extends AppCompatActivity implements View.OnClickList
 
     private void delete(final int position) {
         if (position < 0) return;
-        final LocBookmark bookmark = mAdapter.getItem(position);
+        final LocationMark bookmark = mAdapter.getItem(position);
         new AlertDialog.Builder(this)
                 .setTitle("Delete " + bookmark.toString())
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         DbUtils.deleteBookmark(bookmark);
-                        ArrayList<LocBookmark> allBookmark = DbUtils.getAllBookmark();
+                        ArrayList<LocationMark> allBookmark = DbUtils.getAllBookmark();
                         mAdapter.setLocBookmarkList(allBookmark);
                     }
                 })
@@ -182,7 +209,7 @@ public class FlyToActivity extends AppCompatActivity implements View.OnClickList
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (BroadcastEvent.BookMark.ACTION_BOOK_MARK_UPDATE.equals(action)) {
-                ArrayList<LocBookmark> allBookmark = DbUtils.getAllBookmark();
+                ArrayList<LocationMark> allBookmark = DbUtils.getAllBookmark();
                 mAdapter.setLocBookmarkList(allBookmark);
             }
         }
@@ -196,9 +223,8 @@ public class FlyToActivity extends AppCompatActivity implements View.OnClickList
 
     public static void startPage(Context context) {
         Intent intent = new Intent(context, FlyToActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(intent);
     }
-
 
 }

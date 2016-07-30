@@ -5,7 +5,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.EditText;
 
-import com.github.fakegps.pokemon.model.LocPoint;
+import com.github.fakegps.pokemon.model.LocationPoint;
 
 import java.math.BigDecimal;
 
@@ -23,15 +23,27 @@ public final class FakeGpsUtils {
         cmb.setText(content.trim());
     }
 
-    public static LocPoint getLocPointFromInput(Context context, EditText editText) {
-        LocPoint point = null;
-        String text = editText.getText().toString().replace("(", "").replace(")", "");
+    public static LocationPoint getLocPointFromInput(EditText latText, EditText lonText) {
+        LocationPoint point = null;
+        try {
+            double lat = Double.parseDouble(latText.getText().toString().trim());
+            double lon = Double.parseDouble(lonText.getText().toString().trim());
+            point = new LocationPoint(lat, lon);
+        } catch (NumberFormatException e) {
+            Log.e(TAG, "Parse loc point error!", e);
+        }
+        return point;
+    }
+
+    public static LocationPoint getLocPointFromString(String str) {
+        LocationPoint point = null;
+        String text = str.replace("(", "").replace(")", "");
         String[] split = text.split(",");
         if (split.length == 2) {
             try {
                 double lat = Double.parseDouble(split[0].trim());
                 double lon = Double.parseDouble(split[1].trim());
-                point = new LocPoint(lat, lon);
+                point = new LocationPoint(lat, lon);
             } catch (NumberFormatException e) {
                 Log.e(TAG, "Parse loc point error!", e);
             }
@@ -61,6 +73,12 @@ public final class FakeGpsUtils {
         }
 
         return value;
+    }
+
+    public static double scaleDouble(int scale, double d) {
+        BigDecimal bigDecimal = new BigDecimal(d);
+        d = bigDecimal.setScale(scale, BigDecimal.ROUND_HALF_UP).doubleValue();
+        return d;
     }
 
     private static final double EARTH_RADIUS = 6378.137; //地球半径 KM

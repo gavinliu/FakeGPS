@@ -12,9 +12,9 @@ import java.io.Serializable;
  * bookmark for location
  * Created by tiger on 7/23/16.
  */
-@Table("LocBookmark")
-public class LocBookmark implements Serializable{
-    static final long serialVersionUID =-1770575152720897666L;
+@Table("LocationMark")
+public class LocationMark implements Serializable {
+    static final long serialVersionUID = -1770575152720897666L;
 
     @PrimaryKey(AssignType.AUTO_INCREMENT)
     @Column("_id")
@@ -23,13 +23,13 @@ public class LocBookmark implements Serializable{
     @NotNull
     private String mName;
 
-    private LocPoint mLocPoint;
+    private LocationPoint mLocPoint;
 
 
-    public LocBookmark() {
+    public LocationMark() {
     }
 
-    public LocBookmark(String name, LocPoint locPoint) {
+    public LocationMark(String name, LocationPoint locPoint) {
         mName = name;
         mLocPoint = locPoint;
     }
@@ -42,11 +42,11 @@ public class LocBookmark implements Serializable{
         mName = name;
     }
 
-    public LocPoint getLocPoint() {
+    public LocationPoint getLocPoint() {
         return mLocPoint;
     }
 
-    public void setLocPoint(LocPoint locPoint) {
+    public void setLocPoint(LocationPoint locPoint) {
         mLocPoint = locPoint;
     }
 
@@ -56,7 +56,7 @@ public class LocBookmark implements Serializable{
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder("LocBookmark: ");
+        StringBuilder builder = new StringBuilder("LocationMark: ");
         builder.append(mName);
         builder.append(" ");
         builder.append(mLocPoint != null ? mLocPoint.toString() : "loc null");

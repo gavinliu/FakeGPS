@@ -5,10 +5,10 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.github.fakegps.pokemon.model.LocationPoint;
+import com.github.fakegps.pokemon.ui.AddMarkDialogActivity;
 import com.github.fakegps.pokemon.util.FakeGpsUtils;
 import com.github.fakegps.pokemon.service.LocationThread;
-import com.github.fakegps.pokemon.model.LocPoint;
-import com.github.fakegps.pokemon.ui.BookmarkActivity;
 import com.github.fakegps.pokemon.ui.FlyToActivity;
 import com.github.fakegps.pokemon.ui.MainActivity;
 
@@ -19,33 +19,27 @@ public class JoyStickManager implements IJoyStickPresenter {
 
     private static final String TAG = "JoyStickManager";
 
+    private static JoyStickManager INSTANCE = new JoyStickManager();
+
     public static double STEP_WALK = 0.00002; // 2m/s
     public static double STEP_BIKE = 0.00005; // 5m/s
     public static double STEP_CAR = 0.00010;  // 10m/s
-    public static double STEP_DEFAULT = STEP_CAR;
+    public static double STEP_DEFAULT = STEP_WALK;
 
     private double mMoveStep = STEP_DEFAULT;
 
-    private static JoyStickManager INSTANCE = new JoyStickManager();
+    private LocationPoint mCurrentLocPoint;
+    private LocationPoint mTargetLocPoint;
 
     private Context mContext;
     private LocationThread mLocationThread;
     private boolean mIsStarted = false;
-
-    private LocPoint mCurrentLocPoint;
-    private LocPoint mTargetLocPoint;
-
-    private int mFlyTime;
-    private int mFlyTimeIndex;
     private boolean mIsFlyMode = false;
 
-    private IJoyStickView mView;
-
-    private PokemonGoJoyStick mJoyStickView;
+    private IJoyStickView mJoyStickView;
 
     private JoyStickManager() {
     }
-
 
     public void init(Context context) {
         mContext = context;
@@ -55,7 +49,7 @@ public class JoyStickManager implements IJoyStickPresenter {
         return INSTANCE;
     }
 
-    public void start(@NonNull LocPoint locPoint) {
+    public void start(@NonNull LocationPoint locPoint) {
         mCurrentLocPoint = locPoint;
         if (mLocationThread == null || !mLocationThread.isAlive()) {
             mLocationThread = new LocationThread(mContext.getApplicationContext(), this);
@@ -84,45 +78,73 @@ public class JoyStickManager implements IJoyStickPresenter {
             mJoyStickView = new PokemonGoJoyStick(mContext);
             mJoyStickView.setJoyStickPresenter(this);
         }
-
-        if (!mJoyStickView.isShowing()) {
-            mJoyStickView.addToWindow();
-        }
+        mJoyStickView.show();
     }
 
     public void hideJoyStick() {
-        if (mJoyStickView != null && mJoyStickView.isShowing()) {
-            mJoyStickView.removeFromWindow();
+        if (mJoyStickView != null) {
+            mJoyStickView.hide();
         }
     }
 
-    public LocPoint getCurrentLocPoint() {
+    public LocationPoint getCurrentLocPoint() {
         return mCurrentLocPoint;
     }
 
-    public LocPoint getUpdateLocPoint() {
-        if (!mIsFlyMode || mFlyTimeIndex > mFlyTime) {
-            return mCurrentLocPoint;
-        } else {
-            float factor = (float) mFlyTimeIndex / (float) mFlyTime;
-            double lat = mCurrentLocPoint.getLatitude() + (factor * (mTargetLocPoint.getLatitude() - mCurrentLocPoint.getLatitude()));
-            double lon = mCurrentLocPoint.getLongitude() + (factor * (mTargetLocPoint.getLatitude() - mCurrentLocPoint.getLatitude()));
+    public LocationPoint getUpdateLocPoint() {
+        if (mIsFlyMode && !mCurrentLocPoint.equals(mTargetLocPoint)) {
+            double lat = mCurrentLocPoint.getLatitude();
+            double lon = mCurrentLocPoint.getLongitude();
+
+            double tLat = mTargetLocPoint.getLatitude();
+            double tLon = mTargetLocPoint.getLongitude();
+
+            double latStep, lonStep;
+            if (lat < tLat) {
+                latStep = mMoveStep;
+            } else {
+                latStep = -mMoveStep;
+            }
+            if (lon < tLon) {
+                lonStep = mMoveStep;
+            } else {
+                lonStep = -mMoveStep;
+            }
+
+            lat += latStep;
+            lon += lonStep;
+
+            if (latStep >= 0) {
+                if (lat > tLat) lat = tLat;
+            } else {
+                if (lat < tLat) lat = tLat;
+            }
+            if (lonStep >= 0) {
+                if (lon > tLon) lon = tLon;
+            } else {
+                if (lon < tLon) lon = tLon;
+            }
+
             mCurrentLocPoint.setLatitude(lat);
             mCurrentLocPoint.setLongitude(lon);
-            mFlyTimeIndex++;
-            return mCurrentLocPoint;
+
+            if (mCurrentLocPoint.equals(mTargetLocPoint)) {
+                Toast.makeText(mContext, "完成", Toast.LENGTH_SHORT).show();
+            }
         }
+
+        if (mJoyStickView != null) mJoyStickView.updateLocationPoint(mCurrentLocPoint);
+
+        return mCurrentLocPoint;
     }
 
-    public void jumpToLocation(@NonNull LocPoint location) {
+    public void jumpToLocation(@NonNull LocationPoint location) {
         mIsFlyMode = false;
         mCurrentLocPoint = location;
     }
 
-    public void flyToLocation(@NonNull LocPoint location, int flyTime) {
+    public void flyToLocation(@NonNull LocationPoint location) {
         mTargetLocPoint = location;
-        mFlyTime = flyTime;
-        mFlyTimeIndex = 0;
         mIsFlyMode = true;
     }
 
@@ -165,8 +187,8 @@ public class JoyStickManager implements IJoyStickPresenter {
     public void onBookmarkLocationClick() {
         Log.d(TAG, "onBookmarkLocationClick");
         if (mCurrentLocPoint != null) {
-            LocPoint locPoint = new LocPoint(mCurrentLocPoint);
-            BookmarkActivity.startPage(mContext, "Bookmark", locPoint);
+            LocationPoint locPoint = new LocationPoint(mCurrentLocPoint);
+            AddMarkDialogActivity.startPage(mContext, "Bookmark", locPoint);
             Toast.makeText(mContext, "Current location is copied!" + "\n" + locPoint, Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(mContext, "Service is not start!", Toast.LENGTH_SHORT).show();
@@ -181,7 +203,6 @@ public class JoyStickManager implements IJoyStickPresenter {
             Toast.makeText(mContext, "Current location is copied!" + "\n" + mCurrentLocPoint, Toast.LENGTH_LONG).show();
         }
     }
-
 
     @Override
     public void onArrowUpClick() {
@@ -203,7 +224,7 @@ public class JoyStickManager implements IJoyStickPresenter {
 
     @Override
     public void onArrowRightClick() {
-        Log.d(TAG, "onArrowRightClick");
+        Log.d(TAG, "onArrowRightClick :" + mMoveStep);
         mCurrentLocPoint.setLongitude(mCurrentLocPoint.getLongitude() + mMoveStep);
     }
 

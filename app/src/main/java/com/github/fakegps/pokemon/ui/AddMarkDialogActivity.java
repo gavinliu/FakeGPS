@@ -9,24 +9,24 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.github.fakegps.pokemon.model.LocationMark;
+import com.github.fakegps.pokemon.model.LocationPoint;
+import com.github.fakegps.pokemon.R;
 import com.github.fakegps.pokemon.util.DbUtils;
 import com.github.fakegps.pokemon.util.FakeGpsUtils;
-import com.github.fakegps.pokemon.R;
-import com.github.fakegps.pokemon.model.LocBookmark;
-import com.github.fakegps.pokemon.model.LocPoint;
 
 /**
- * BookmarkActivity
+ * AddMarkDialogActivity
  * Created by tiger on 7/23/16.
  */
-public class BookmarkActivity extends AppCompatActivity implements View.OnClickListener {
+public class AddMarkDialogActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String EXTRA_LOCATION = "extra_location";
     public static final String EXTRA_NAME = "extra_name";
 
     private EditText mNameEditText;
-    private EditText mLocEditText;
-
+    private EditText mLocationLatEditText;
+    private EditText mLocationLonEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,16 +35,19 @@ public class BookmarkActivity extends AppCompatActivity implements View.OnClickL
 
         Intent intent = getIntent();
         String name = intent.getStringExtra(EXTRA_NAME);
-        LocPoint locPoint = (LocPoint) intent.getSerializableExtra(EXTRA_LOCATION);
+        LocationPoint locPoint = (LocationPoint) intent.getSerializableExtra(EXTRA_LOCATION);
         mNameEditText = (EditText) findViewById(R.id.inputName);
-        mLocEditText = (EditText) findViewById(R.id.inputLoc);
+
+        mLocationLatEditText = (EditText) findViewById(R.id.inputLat);
+        mLocationLonEditText = (EditText) findViewById(R.id.inputLon);
 
         mNameEditText.setText(name);
         if (!TextUtils.isEmpty(name)) {
             mNameEditText.setSelection(name.length());
         }
         if (locPoint != null) {
-            mLocEditText.setText(locPoint.toString());
+            mLocationLatEditText.setText(String.valueOf(locPoint.getLatitude()));
+            mLocationLonEditText.setText(String.valueOf(locPoint.getLongitude()));
         }
 
         findViewById(R.id.btn_ok).setOnClickListener(this);
@@ -72,9 +75,9 @@ public class BookmarkActivity extends AppCompatActivity implements View.OnClickL
             return;
         }
 
-        LocPoint locPointFromInput = FakeGpsUtils.getLocPointFromInput(this, mLocEditText);
+        LocationPoint locPointFromInput = FakeGpsUtils.getLocPointFromInput(mLocationLatEditText, mLocationLonEditText);
         if (locPointFromInput != null) {
-            LocBookmark locBookmark = new LocBookmark(name, locPointFromInput);
+            LocationMark locBookmark = new LocationMark(name, locPointFromInput);
             long id = DbUtils.insertBookmark(locBookmark);
             if (id != -1) {
                 Toast.makeText(this, "bookmark saved!", Toast.LENGTH_SHORT).show();
@@ -84,8 +87,8 @@ public class BookmarkActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    public static void startPage(Context context, String name, LocPoint locPoint) {
-        Intent intent = new Intent(context, BookmarkActivity.class);
+    public static void startPage(Context context, String name, LocationPoint locPoint) {
+        Intent intent = new Intent(context, AddMarkDialogActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(EXTRA_NAME, name);
         intent.putExtra(EXTRA_LOCATION, locPoint);

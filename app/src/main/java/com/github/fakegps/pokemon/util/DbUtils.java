@@ -7,9 +7,9 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import com.github.fakegps.pokemon.FakeGpsApp;
 import com.github.fakegps.pokemon.event.BroadcastEvent;
+import com.github.fakegps.pokemon.model.LocationPoint;
 import com.litesuits.orm.db.model.ConflictAlgorithm;
-import com.github.fakegps.pokemon.model.LocBookmark;
-import com.github.fakegps.pokemon.model.LocPoint;
+import com.github.fakegps.pokemon.model.LocationMark;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,7 +26,7 @@ public final class DbUtils {
     }
 
 
-    public static long insertBookmark(LocBookmark bookmark) {
+    public static long insertBookmark(LocationMark bookmark) {
         if (bookmark == null) {
             return -1;
         }
@@ -37,22 +37,22 @@ public final class DbUtils {
         return id;
     }
 
-    public static void deleteBookmark(LocBookmark bookmark) {
+    public static void deleteBookmark(LocationMark bookmark) {
         if (bookmark == null) return;
         FakeGpsApp.getLiteOrm().delete(bookmark);
         notifyBookmarkUpdate();
     }
 
-    public static void saveBookmark(Collection<LocBookmark> bookmarks) {
-        FakeGpsApp.getLiteOrm().deleteAll(LocBookmark.class);
+    public static void saveBookmark(Collection<LocationMark> bookmarks) {
+        FakeGpsApp.getLiteOrm().deleteAll(LocationMark.class);
         FakeGpsApp.getLiteOrm().save(bookmarks);
     }
 
-    public static ArrayList<LocBookmark> getAllBookmark() {
-        return FakeGpsApp.getLiteOrm().query(LocBookmark.class);
+    public static ArrayList<LocationMark> getAllBookmark() {
+        return FakeGpsApp.getLiteOrm().query(LocationMark.class);
     }
 
-    public static void saveLastLocPoint(@NonNull Context context, @NonNull LocPoint locPoint) {
+    public static void saveLastLocPoint(@NonNull Context context, @NonNull LocationPoint locPoint) {
         context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE).edit()
                 .putString(KEY_LAST_LOC, locPoint.toString())
                 .apply();
