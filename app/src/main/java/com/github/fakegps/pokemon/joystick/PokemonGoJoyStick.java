@@ -109,7 +109,7 @@ public class PokemonGoJoyStick extends FrameLayout implements IJoyStickView {
             return;
         }
 
-        final String status = FakeGpsUtils.scaleDouble(5, locationPoint.getLatitude()) + " \n"
+        final String status = "纬度: " +FakeGpsUtils.scaleDouble(5, locationPoint.getLatitude()) + " \n经度: "
                 + FakeGpsUtils.scaleDouble(5, locationPoint.getLongitude());
 
         mHandler.post(new Runnable() {
