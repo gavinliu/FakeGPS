@@ -1,5 +1,7 @@
 package com.github.fakegps.pokemon.joystick;
 
+import android.content.Context;
+
 /**
  * Created by tiger on 7/23/16.
  */

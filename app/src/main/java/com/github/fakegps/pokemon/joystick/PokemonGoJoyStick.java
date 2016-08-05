@@ -24,11 +24,13 @@ public class PokemonGoJoyStick extends FrameLayout implements IJoyStickView {
     private WindowManager mWindowManager;
     private WindowManager.LayoutParams mWindowLayoutParams;
 
-    private boolean isShowing = false;
+    private boolean mIsShowing = false;
 
     private IJoyStickPresenter mJoyStickPresenter;
 
     private TextView mStatusTextView;
+
+    private SettingPanel mSettingPanel;
 
     public PokemonGoJoyStick(Context context) {
         super(context);
@@ -57,6 +59,8 @@ public class PokemonGoJoyStick extends FrameLayout implements IJoyStickView {
         mViewHeight = context.getResources().getDimensionPixelSize(R.dimen.joystick_height);
 
         initWindowParam();
+
+        mSettingPanel = new SettingPanel(context);
     }
 
     private void initWindowParam() {
@@ -71,17 +75,17 @@ public class PokemonGoJoyStick extends FrameLayout implements IJoyStickView {
 
     private void addToWindow() {
         mWindowManager.addView(this, mWindowLayoutParams);
-        isShowing = true;
+        mIsShowing = true;
     }
 
     private void removeFromWindow() {
         mWindowManager.removeView(this);
-        isShowing = false;
+        mIsShowing = false;
     }
 
     @Override
     public boolean isShowing() {
-        return isShowing;
+        return mIsShowing;
     }
 
     @Override
@@ -150,7 +154,8 @@ public class PokemonGoJoyStick extends FrameLayout implements IJoyStickView {
                     break;
 
                 case R.id.btn_fly_to:
-                    if (mJoyStickPresenter != null) mJoyStickPresenter.onFlyClick();
+//                    if (mJoyStickPresenter != null) mJoyStickPresenter.onFlyClick();
+                    mSettingPanel.show();
                     break;
 
                 case R.id.btn_bookmark:
