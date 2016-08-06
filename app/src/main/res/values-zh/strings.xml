@@ -32,6 +32,6 @@
 
     <string name="move_walk">步行</string>
     <string name="move_bike">单车</string>
-    <string name="move_car">起床</string>
+    <string name="move_car">汽车</string>
 
 </resources>
