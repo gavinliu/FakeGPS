@@ -1,23 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="12dp"
-        android:background="@drawable/joystick_btn_bg3">
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/joystick_btn_bg3"
+        android:padding="12dp">
 
         <ImageButton
             android:id="@+id/cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginBottom="8dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="12dp"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_cancel"/>
-    </FrameLayout>
 
-</ScrollView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/cancel"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="@string/setting"
+                android:textColor="@color/float_text_color"
+                android:textSize="20sp"/>
+
+            <LinearLayout
+                android:id="@+id/ll_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/new_location"
+                    android:textColor="@color/float_text_color"
+                    android:textSize="18sp"/>
+
+                <EditText
+                    android:id="@+id/inputLat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="1234567890."
+                    android:hint="@string/lat"
+                    android:inputType="numberDecimal"
+                    android:textColor="@color/float_text_color"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textSize="16sp"/>
+
+                <EditText
+                    android:id="@+id/inputLon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="1234567890."
+                    android:hint="@string/lon"
+                    android:inputType="numberDecimal"
+                    android:textColor="@color/float_text_color"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/move_step"
+                    android:textColor="@color/float_text_color"
+                    android:textSize="18sp"/>
+
+                <RadioGroup
+                    android:id="@+id/inputStep"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/inputStepWalk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/move_walk"
+                        android:textColor="@color/float_text_color"/>
+
+                    <RadioButton
+                        android:id="@+id/inputStepBike"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/move_bike"
+                        android:textColor="@color/float_text_color"/>
+
+                    <RadioButton
+                        android:id="@+id/inputStepCar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/move_car"
+                        android:textColor="@color/float_text_color"/>
+
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:layout_marginTop="10dp"
+                android:divider="@drawable/joystick_divider"
+                android:orientation="horizontal"
+                android:showDividers="middle">
+
+                <Button
+                    android:id="@+id/auto"
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/ic_float_btn"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:singleLine="true"
+                    android:text="@string/auto_move"
+                    android:textColor="#7ff2b7"/>
+
+                <Button
+                    android:id="@+id/new_loc"
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/ic_float_btn"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:singleLine="true"
+                    android:text="@string/jump"
+                    android:textColor="#7ff2b7"/>
+
+                <Button
+                    android:id="@+id/add_mark"
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/ic_float_btn"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:singleLine="true"
+                    android:text="@string/add_mark"
+                    android:textColor="#7ff2b7"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_bookmark"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/bookmark"
+                android:textColor="@color/float_text_color"
+                android:textSize="18sp"/>
+
+            <FrameLayout
+                android:id="@+id/fl_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ListView
+                    android:id="@+id/list_bookmark"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:cacheColorHint="@android:color/transparent"/>
+
+                <TextView
+                    android:id="@+id/empty_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/no_data"
+                    android:textSize="26sp"/>
+            </FrameLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</FrameLayout>

@@ -21,23 +21,25 @@ public abstract class FloatFrameLayout extends FrameLayout {
         mWindowLayoutParams = new WindowManager.LayoutParams();
     }
 
-    protected void setupWindowLayoutParam() {
+    protected void createWindowLayoutParams() {
         mWindowLayoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
         mWindowLayoutParams.format = PixelFormat.RGBA_8888;
-        mWindowLayoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-        mWindowLayoutParams.gravity = Gravity.BOTTOM;
-        mWindowLayoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        mWindowLayoutParams.flags = getWindowFlags();
+        mWindowLayoutParams.gravity = getWindowGravity();
+        mWindowLayoutParams.width = getWindowWidth();
+        mWindowLayoutParams.height = getWindowHeight();
+        mWindowLayoutParams.x = getWindowX();
+        mWindowLayoutParams.y = getWindowY();
     }
 
     protected void addToWindow() {
+        createWindowLayoutParams();
         mWindowManager.addView(this, mWindowLayoutParams);
     }
 
     protected void removeFromWindow() {
         mWindowManager.removeView(this);
     }
-
-    protected abstract int getWindowType();
 
     protected abstract int getWindowFlags();
 

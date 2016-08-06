@@ -1,6 +1,7 @@
 package com.github.fakegps.pokemon.ui;
 
 import android.content.Context;
+import android.support.v4.content.res.ResourcesCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +21,12 @@ import java.util.List;
 public class MarkAdapter extends BaseAdapter {
 
     private Context mContext;
+    private boolean mIsFloat;
     private List<LocationMark> mLocBookmarkList = new ArrayList<>();
 
-    public MarkAdapter(Context context) {
+    public MarkAdapter(Context context, boolean isFloat) {
         mContext = context;
+        mIsFloat = isFloat;
     }
 
     @Override
@@ -57,6 +60,13 @@ public class MarkAdapter extends BaseAdapter {
         LocationMark item = getItem(position);
         viewHolder.name.setText(item.getName());
         viewHolder.loc.setText(item.getLocPoint().toString());
+
+        if (mIsFloat) {
+            viewHolder.name.setTextColor(mContext.getResources().getColor(R.color.float_text_color));
+            viewHolder.loc.setTextColor(mContext.getResources().getColor(R.color.float_text_color));
+            viewHolder.name.setTextSize(14);
+            viewHolder.loc.setTextSize(12);
+        }
 
         return convertView;
     }

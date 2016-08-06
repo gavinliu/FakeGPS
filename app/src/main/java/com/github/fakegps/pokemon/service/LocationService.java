@@ -27,7 +27,7 @@ public class LocationService extends Service {
         Notification notification = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_notification)  // the status icon
 //                .setTicker("setTicker")  // the status text
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.icon_app))
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher))
                 .setWhen(System.currentTimeMillis())  // the time stamp
                 .setContentTitle(getText(R.string.app_name))  // the label
                 .setContentText("Working")  // the contents of the entry

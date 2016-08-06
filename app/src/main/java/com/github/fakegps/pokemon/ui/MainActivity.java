@@ -102,11 +102,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mBtnStart = (Button) findViewById(R.id.btn_start);
         mBtnStart.setOnClickListener(this);
-        updateBtnStart();
-
         mBtnSetNew = (Button) findViewById(R.id.btn_set_loc);
         mBtnSetNew.setOnClickListener(this);
-        updateBtnSetNew();
+        updateBtnStart(JoyStickManager.get().isStarted());
 
         registerBroadcastReceiver();
     }
@@ -123,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         service.putExtra(LocationService.CMD_KEY, LocationService.START);
                         service.putExtra("point", point);
                         startService(service);
+                        updateBtnStart(true);
                     } else {
                         Toast.makeText(this, "Input is not valid!", Toast.LENGTH_SHORT).show();
                     }
@@ -133,10 +132,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                     Intent service = new Intent(this, LocationService.class);
                     stopService(service);
+                    updateBtnStart(false);
                 }
 
-                updateBtnStart();
-                updateBtnSetNew();
                 break;
 
             case R.id.btn_set_loc:
@@ -151,24 +149,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void updateBtnStart() {
-        if (JoyStickManager.get().isStarted()) {
+    private void updateBtnStart(boolean isStart) {
+        if (isStart) {
             mBtnStart.setText(R.string.btn_stop);
-        } else {
-            mBtnStart.setText(R.string.btn_start);
-        }
-    }
-
-    private void updateBtnSetNew() {
-        if (JoyStickManager.get().isStarted()) {
             mBtnSetNew.setEnabled(true);
         } else {
+            mBtnStart.setText(R.string.btn_start);
             mBtnSetNew.setEnabled(false);
         }
     }
 
     private void initListView() {
-        mAdapter = new MarkAdapter(this);
+        mAdapter = new MarkAdapter(this, false);
         ArrayList<LocationMark> allBookmark = DbUtils.getAllBookmark();
         mAdapter.setLocBookmarkList(allBookmark);
         mListView.setAdapter(mAdapter);

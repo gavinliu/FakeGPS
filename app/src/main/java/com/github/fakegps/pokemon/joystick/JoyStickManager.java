@@ -7,10 +7,7 @@ import android.widget.Toast;
 
 import com.github.fakegps.pokemon.model.LocationPoint;
 import com.github.fakegps.pokemon.ui.AddMarkDialogActivity;
-import com.github.fakegps.pokemon.util.FakeGpsUtils;
 import com.github.fakegps.pokemon.service.LocationThread;
-import com.github.fakegps.pokemon.ui.FlyToActivity;
-import com.github.fakegps.pokemon.ui.MainActivity;
 
 /**
  * Created by tiger on 7/22/16.
@@ -129,6 +126,7 @@ public class JoyStickManager implements IJoyStickPresenter {
             mCurrentLocPoint.setLongitude(lon);
 
             if (mCurrentLocPoint.equals(mTargetLocPoint)) {
+                mIsFlyMode = false;
                 Toast.makeText(mContext, "完成", Toast.LENGTH_SHORT).show();
             }
         }
@@ -166,24 +164,6 @@ public class JoyStickManager implements IJoyStickPresenter {
 
 
     @Override
-    public void onSetLocationClick() {
-        Log.d(TAG, "onSetLocationClick");
-        MainActivity.startPage(mContext);
-    }
-
-    @Override
-    public void onFlyClick() {
-        Log.d(TAG, "onFlyClick");
-        if (mIsFlyMode) {
-            stopFlyMode();
-            Toast.makeText(mContext, "Stop Fly", Toast.LENGTH_SHORT).show();
-        } else {
-            FlyToActivity.startPage(mContext);
-        }
-
-    }
-
-    @Override
     public void onBookmarkLocationClick() {
         Log.d(TAG, "onBookmarkLocationClick");
         if (mCurrentLocPoint != null) {
@@ -192,15 +172,6 @@ public class JoyStickManager implements IJoyStickPresenter {
             Toast.makeText(mContext, "Current location is copied!" + "\n" + locPoint, Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(mContext, "Service is not start!", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public void onCopyLocationClick() {
-        Log.d(TAG, "onCopyLocationClick");
-        if (mCurrentLocPoint != null) {
-            FakeGpsUtils.copyToClipboard(mContext, mCurrentLocPoint.toString());
-            Toast.makeText(mContext, "Current location is copied!" + "\n" + mCurrentLocPoint, Toast.LENGTH_LONG).show();
         }
     }
 

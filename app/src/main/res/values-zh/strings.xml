@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">精灵宝可梦GO.助手</string>
+    <string name="btn_start">开始</string>
+    <string name="btn_stop">停止</string>
+    <string name="menu_delete">删除</string>
+
+    <string name="title_activity_bookmark">书签</string>
+    <string name="btn_fly_start">开始飞行</string>
+    <string name="btn_fly_stop">停止飞行</string>
+    <string name="label_fly">飞到该位置</string>
+    <string name="btn_set_new_loc">更新位置</string>
+    <string name="bookmark">书签:</string>
+    <string name="move_step">移动方式:</string>
+    <string name="move_step_hint">移动方式</string>
+    <string name="loc_input_hint">纬度 , 经度</string>
+    <string name="lat">纬度</string>
+    <string name="lon">经度</string>
+
+    <string name="location">位置:</string>
+    <string name="fly_time">Fly Time(s)</string>
+    <string name="bookmark_name">书签名</string>
+    <string name="no_data">暂无书签</string>
+    <string name="save">保存</string>
+    <string name="cancel">关闭</string>
+
+    <string name="new_location">新位置:</string>
+    <string name="auto_move">自动移动</string>
+    <string name="jump">直接跳转</string>
+    <string name="add_mark">添加书签</string>
+
+    <string name="setting">设置</string>
+
+    <string name="move_walk">步行</string>
+    <string name="move_bike">单车</string>
+    <string name="move_car">起床</string>
+
+</resources>

@@ -10,7 +10,7 @@
         android:background="@drawable/joystick_status_bg"
         android:paddingLeft="2dp"
         android:paddingRight="2dp"
-        android:textColor="@android:color/black"
+        android:textColor="@color/float_text_color"
         android:textSize="12sp"/>
 
     <LinearLayout
@@ -21,6 +21,7 @@
         android:orientation="horizontal"
         android:showDividers="middle">
 
+        <!--
         <ImageButton
             android:id="@+id/btn_set_loc"
             android:layout_width="@dimen/joystick_btn_width"
@@ -41,34 +42,43 @@
             android:layout_height="@dimen/joystick_btn_height"
             android:background="@drawable/joystick_btn_bg"
             android:src="@drawable/ic_bookmark"/>
+        -->
+
 
         <com.github.fakegps.pokemon.widget.JoyStickButton
             android:id="@+id/btn_left"
             android:layout_width="@dimen/joystick_btn_width"
             android:layout_height="@dimen/joystick_btn_height"
             android:background="@drawable/joystick_btn_bg"
-            android:src="@drawable/ic_keyboard_arrow_left_black_24dp"/>
+            android:src="@drawable/ic_keyboard_arrow_left"/>
 
         <com.github.fakegps.pokemon.widget.JoyStickButton
             android:id="@+id/btn_up"
             android:layout_width="@dimen/joystick_btn_width"
             android:layout_height="@dimen/joystick_btn_height"
             android:background="@drawable/joystick_btn_bg"
-            android:src="@drawable/ic_keyboard_arrow_up_black_24dp"/>
+            android:src="@drawable/ic_keyboard_arrow_up"/>
 
         <com.github.fakegps.pokemon.widget.JoyStickButton
             android:id="@+id/btn_right"
             android:layout_width="@dimen/joystick_btn_width"
             android:layout_height="@dimen/joystick_btn_height"
             android:background="@drawable/joystick_btn_bg"
-            android:src="@drawable/ic_keyboard_arrow_right_black_24dp"/>
+            android:src="@drawable/ic_keyboard_arrow_right"/>
 
         <com.github.fakegps.pokemon.widget.JoyStickButton
             android:id="@+id/btn_down"
             android:layout_width="@dimen/joystick_btn_width"
             android:layout_height="@dimen/joystick_btn_height"
+            android:background="@drawable/joystick_btn_bg"
+            android:src="@drawable/ic_keyboard_arrow_down"/>
+
+        <ImageButton
+            android:id="@+id/btn_setting"
+            android:layout_width="@dimen/joystick_btn_width"
+            android:layout_height="@dimen/joystick_btn_height"
             android:background="@drawable/joystick_btn_bg2"
-            android:src="@drawable/ic_keyboard_arrow_down_black_24dp"/>
+            android:src="@drawable/ic_setting"/>
     </LinearLayout>
 
 
