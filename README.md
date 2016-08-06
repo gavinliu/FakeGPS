@@ -2,40 +2,26 @@
 
 > 基于 FakeGPS ，对 PokemonGo 优化。
 
-#FakeGPS
+![](./screenshot/screenshots.png)
 
-[中文Readme](https://github.com/xiangtailiang/FakeGPS/blob/master/README_CN.md)
+* 沉浸体验: UI风格和PokemonGo保持一致.
+* 移动模式: 步行,单车,汽车
+* 自动移动模式: 将自动移动到新位置, ****孵蛋利器****
 
-FakeGPS is a GPS device simulator. GPS location signal keep output according to the given coordinates. By the direction keys on the joystick, the user can simulate walking on the map.
+#PSD
 
-#Features
-- Simulate the real GPS devices, output GPS location per second.
-- Have two modes to set the new location: **Jump Mode** and **Flight Mode**. **Jump Mode**: jump to the new location in second. **Flight Mode**: fly to the new location according to the given time by linear interpolation.
-- With a global floating joystick, the direction button will do a certain offset at the current position (via Move Step, degrees unit). Click to move a step, long press will move continuously.
-- Bookmarks support. In the Bookmarks List, tap to use it, long press to Delete.  Long Press Bookmark button on the joystick to copy the current coordinates to the clipboard, make it easy to share it with other people.
+![](./screenshot/icons.png)
 
-#Screenshots.
+软件用到的图标PhotoShop源文件
 
-![Screenshot_1](./screenshot/Screenshot_1.png)
+#安装说明
 
-![Screenshot_2](./screenshot/Screenshot_2.png)
+由于模拟位置需要借助系统的`INSTALL_LOCATION_PROVIDER`权限，因此需要安装到system分区中。
 
-![Screenshot_3](./screenshot/Screenshot_3.png)
-
-# Download
-[FakeGPS V1.0](https://github.com/xiangtailiang/FakeGPS/releases/tag/1.0)
-
-
-#Installation
-Since the FakeGPS need the `INSTALL_LOCATION_PROVIDER` permissions, so it need to installed as system app.
-
-- 1, Root your phone.
-- 2, Download [Lucky Patcher](https: //lucky-patcher.netbew.com/) and install it.  Launch Lucky Patcher and find "Rebuild & Install" at the bottom bar. Locate FakeGPS using the built-in exploerer in Lucky Patcher. Click the apk file and select "Install as a system app"
-- 3, Uncheck "Allow mock location" in Settings > Developer Options. Enable "Location Services" on your device. It is suggested that you choose "Locate by GPS" instead of "Locate by network and GPS".
-- 4, Launch FakeGPS, click Start button, the joystick will be displayed, if not pop up, turn on the applications floating window display authority (especially MIUI and Flyme, permission is off by default), and then Launch the Maps apps (Like Google Map)and check if it work.
-
-# Contribute
-If you would like to contribute code to FakeGPS, you can do so through GitHub by forking the repository and sending a pull request.
+- 1、Root手机，获取system分区的读写权限。
+- 2、借助[Lucky Patcher](https://lucky-patcher.netbew.com/) 把FakeGPS以系统应用的方式安装。
+- 3、打开Android系统设置开发者选项，取消“允许模拟位置”勾选。设置位置服务仅使用GPS设备。
+- 4、打开FakeGPS，点击Start，这个时候手柄会展示出来，如果没有弹出，请打开应用的悬浮窗显示权限（特别是MIUI和Flyme，权限默认是关闭的），然后打开地图应用（谷歌地图和高德地图测试可用）。查看是否能够定位到设置的坐标，点击手柄上的按键检查是否能够正常移动。
 
 # License
 [The MIT License (MIT)](http://opensource.org/licenses/MIT)
