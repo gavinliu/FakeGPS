@@ -2,6 +2,8 @@ package com.github.fakegps.pokemon.joystick;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.Gravity;
@@ -51,6 +53,12 @@ public class SettingPanel extends FloatFrameLayout implements IJoyStickView {
 
         mLocationLatEditText = (EditText) findViewById(R.id.inputLat);
         mLocationLonEditText = (EditText) findViewById(R.id.inputLon);
+
+        Drawable drawable = getResources().getDrawable(R.drawable.abc_textfield_default_mtrl_alpha);
+        if (drawable != null)
+            drawable.setColorFilter(getResources().getColor(R.color.float_text_color), PorterDuff.Mode.SRC_IN);
+        mLocationLatEditText.setBackgroundDrawable(drawable);
+        mLocationLonEditText.setBackgroundDrawable(drawable);
 
         mMoveStepGroup = (RadioGroup) findViewById(R.id.inputStep);
         mMoveStepGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
